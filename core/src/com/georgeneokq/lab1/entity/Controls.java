@@ -2,13 +2,13 @@ package com.georgeneokq.lab1.entity;
 
 import com.badlogic.gdx.Input;
 
-public class EntityControls {
+public class Controls {
     private int upKey;
     private int downKey;
     private int leftKey;
     private int rightKey;
 
-    public EntityControls(int upKey, int downKey, int leftKey, int rightKey) {
+    public Controls(int upKey, int downKey, int leftKey, int rightKey) {
         this.upKey = upKey;
         this.downKey = downKey;
         this.leftKey = leftKey;
@@ -16,25 +16,25 @@ public class EntityControls {
     }
 
     public final static class PredefinedControls {
-        public final static EntityControls PLAYER_1 = new EntityControls(
+        public final static Controls PLAYER_1 = new Controls(
                 Input.Keys.W,
                 Input.Keys.S,
                 Input.Keys.A,
                 Input.Keys.D
         );
-        public final static EntityControls PLAYER_2 = new EntityControls(
+        public final static Controls PLAYER_2 = new Controls(
                 Input.Keys.I,
                 Input.Keys.K,
                 Input.Keys.J,
                 Input.Keys.L
         );
-        public final static EntityControls PLAYER_3 = new EntityControls(
+        public final static Controls PLAYER_3 = new Controls(
                 Input.Keys.UP,
                 Input.Keys.DOWN,
                 Input.Keys.LEFT,
                 Input.Keys.RIGHT
         );
-        public final static EntityControls PLAYER_4 = new EntityControls(
+        public final static Controls PLAYER_4 = new Controls(
                 Input.Keys.NUMPAD_8,
                 Input.Keys.NUMPAD_5,
                 Input.Keys.NUMPAD_4,

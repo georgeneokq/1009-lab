@@ -10,8 +10,8 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.georgeneokq.lab1.manager.TextureAtlasManager;
 import com.georgeneokq.lab1.entity.Car;
-import com.georgeneokq.lab1.entity.Entity;
-import com.georgeneokq.lab1.entity.EntityControls;
+import com.georgeneokq.lab1.entity.ControlledActor;
+import com.georgeneokq.lab1.entity.Controls;
 import com.georgeneokq.lab1.entity.Hitori;
 import com.georgeneokq.lab1.entity.Stickman;
 import com.georgeneokq.lab1.factory.DrawableFactory;
@@ -25,7 +25,7 @@ public class GameScreen implements Screen {
     private Stage stage;
     OrthographicCamera camera;
 
-    ArrayList<Entity> entities = new ArrayList<>();
+    ArrayList<ControlledActor> entities = new ArrayList<>();
 
     public GameScreen() {
         camera = new OrthographicCamera();
@@ -50,7 +50,7 @@ public class GameScreen implements Screen {
                 0,
                 5,
                 0,
-                EntityControls.PredefinedControls.PLAYER_1
+                Controls.PredefinedControls.PLAYER_1
         );
 
         Hitori hitori = new Hitori(
@@ -61,7 +61,7 @@ public class GameScreen implements Screen {
                 0,
                 5,
                 5,
-                EntityControls.PredefinedControls.PLAYER_2
+                Controls.PredefinedControls.PLAYER_2
         );
 
         Stickman stickman = new Stickman(
@@ -72,19 +72,19 @@ public class GameScreen implements Screen {
                 0,
                 5,
                 0,
-                EntityControls.PredefinedControls.PLAYER_3
+                Controls.PredefinedControls.PLAYER_3
         );
 
 
         entities.addAll(Arrays.asList(car, hitori, stickman));
 
-        for(Entity entity: entities) {
+        for(ControlledActor controlledActor : entities) {
             // Scale down dimensions. TODO: Dynamic width/height scaling using getRegionWidth and getRegionHeight
-            entity.setWidth(entity.getWidth() / 4);
-            entity.setHeight(entity.getHeight() / 4);
+            controlledActor.setWidth(controlledActor.getWidth() / 4);
+            controlledActor.setHeight(controlledActor.getHeight() / 4);
 
             // Attach entities to stage
-            stage.addActor(entity);
+            stage.addActor(controlledActor);
         }
 
         Gdx.input.setInputProcessor(stage);
@@ -100,8 +100,8 @@ public class GameScreen implements Screen {
         ScreenUtils.clear(0.57f, 0.77f, 0.85f, 1);
 
         // Update
-        for(Entity entity: entities) {
-            entity.handleKeyPress();
+        for(ControlledActor controlledActor : entities) {
+            controlledActor.handleKeyPress();
         }
 
         // Draw

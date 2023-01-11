@@ -5,29 +5,29 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 
-public abstract class Entity extends Image {
+public abstract class ControlledActor extends Image {
     protected Drawable drawable;
     private float dx;
     private float dy;
 
-    private EntityControls controls;
+    private Controls controls;
 
-    public Entity(Drawable drawable, float width, float height) {
+    public ControlledActor(Drawable drawable, float width, float height) {
         this(drawable, width, height, 0, 0, 0, 0, null);
     }
 
-    public Entity(Drawable drawable, float width, float height, EntityControls controls) {
+    public ControlledActor(Drawable drawable, float width, float height, Controls controls) {
         this(drawable, width, height, 0, 0, 0, 0, controls);
     }
 
-    public Entity(Drawable drawable, float width, float height, float x, float y, EntityControls controls) {
+    public ControlledActor(Drawable drawable, float width, float height, float x, float y, Controls controls) {
         this(drawable, width, height, x, y, 0, 0, controls);
     }
 
     /*
      * Speed should be provided if the entity is movable
      */
-    public Entity(Drawable drawable, float width, float height, float x, float y, float dx, float dy, EntityControls controls) {
+    public ControlledActor(Drawable drawable, float width, float height, float x, float y, float dx, float dy, Controls controls) {
         super(drawable);
         this.drawable = drawable;
         this.setWidth(width);
@@ -92,11 +92,11 @@ public abstract class Entity extends Image {
         this.setY(y);
     }
 
-    public EntityControls getControls() {
+    public Controls getControls() {
         return controls;
     }
 
-    public void setControls(EntityControls controls) {
+    public void setControls(Controls controls) {
         this.controls = controls;
     }
 }
