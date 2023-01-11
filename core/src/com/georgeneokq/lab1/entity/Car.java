@@ -1,11 +1,7 @@
 package com.georgeneokq.lab1.entity;
 
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
-import com.georgeneokq.lab1.atlas.TextureAtlasManager;
+import com.georgeneokq.lab1.manager.TextureAtlasManager;
 import com.georgeneokq.lab1.factory.DrawableFactory;
 
 public class Car extends Entity {

@@ -1,16 +1,14 @@
 package com.georgeneokq.lab1.screen;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
-import com.georgeneokq.lab1.atlas.TextureAtlasManager;
+import com.georgeneokq.lab1.manager.TextureAtlasManager;
 import com.georgeneokq.lab1.entity.Car;
 import com.georgeneokq.lab1.entity.Entity;
 import com.georgeneokq.lab1.entity.EntityControls;

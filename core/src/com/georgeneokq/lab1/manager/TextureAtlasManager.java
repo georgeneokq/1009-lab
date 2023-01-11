@@ -1,4 +1,4 @@
-package com.georgeneokq.lab1.atlas;
+package com.georgeneokq.lab1.manager;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 
