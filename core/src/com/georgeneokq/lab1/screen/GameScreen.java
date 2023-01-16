@@ -42,6 +42,7 @@ public class GameScreen implements Screen {
 
     private void buildStage() {
         // Create entities
+        // TODO: Use builder pattern for instantiation. Too many parameters
         Car car = new Car(
             DrawableFactory.fromTextureAtlas(textureAtlas, "car"),
                 667,
@@ -60,7 +61,7 @@ public class GameScreen implements Screen {
                 0,
                 0,
                 5,
-                5,
+                8,
                 Controls.PredefinedControls.PLAYER_2
         );
 
@@ -79,7 +80,8 @@ public class GameScreen implements Screen {
         entities.addAll(Arrays.asList(car, hitori, stickman));
 
         for(ControlledActor controlledActor : entities) {
-            // Scale down dimensions. TODO: Dynamic width/height scaling using getRegionWidth and getRegionHeight
+            // Scale down dimensions.
+            // TODO: Dynamic width/height scaling using getRegionWidth and getRegionHeight
             controlledActor.setWidth(controlledActor.getWidth() / 4);
             controlledActor.setHeight(controlledActor.getHeight() / 4);
 
