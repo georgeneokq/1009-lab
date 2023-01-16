@@ -48,7 +48,7 @@ public class GameScreen implements Screen {
                 170,
                 0,
                 0,
-                5,
+                10,
                 0,
                 Controls.PredefinedControls.PLAYER_1
         );
@@ -111,7 +111,8 @@ public class GameScreen implements Screen {
 
     @Override
     public void resize(int width, int height) {
-
+        stage.getViewport().update(width, height);
+        stage.getCamera().update();
     }
 
     @Override
