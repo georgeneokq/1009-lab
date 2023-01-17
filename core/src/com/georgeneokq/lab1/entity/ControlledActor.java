@@ -1,35 +1,30 @@
 package com.georgeneokq.lab1.entity;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 
-public abstract class ControlledActor extends Image {
-    protected Drawable drawable;
-    private float dx;
-    private float dy;
+public abstract class ControlledActor extends Actor {
+    protected float dx;
+    protected float dy;
 
     private Controls controls;
 
-    public ControlledActor(Drawable drawable, float width, float height) {
-        this(drawable, width, height, 0, 0, 0, 0, null);
+    public ControlledActor(float width, float height) {
+        this(width, height, 0, 0, 0, 0, null);
     }
 
-    public ControlledActor(Drawable drawable, float width, float height, Controls controls) {
-        this(drawable, width, height, 0, 0, 0, 0, controls);
+    public ControlledActor(float width, float height, Controls controls) {
+        this(width, height, 0, 0, 0, 0, controls);
     }
 
-    public ControlledActor(Drawable drawable, float width, float height, float x, float y, Controls controls) {
-        this(drawable, width, height, x, y, 0, 0, controls);
+    public ControlledActor(float width, float height, float x, float y, Controls controls) {
+        this(width, height, x, y, 0, 0, controls);
     }
 
     /*
      * Speed should be provided if the entity is movable
      */
-    public ControlledActor(Drawable drawable, float width, float height, float x, float y, float dx, float dy, Controls controls) {
-        super(drawable);
-        this.drawable = drawable;
+    public ControlledActor(float width, float height, float x, float y, float dx, float dy, Controls controls) {
         this.setWidth(width);
         this.setHeight(height);
         this.setX(x);
@@ -39,58 +34,14 @@ public abstract class ControlledActor extends Image {
         this.controls = controls;
     }
 
+    // Move the actor according to speed in each direction
+    public void update() {
+        setX(getX() + dx);
+        setY(getY() + dy);
+    }
+
     @Override
-    public void draw(Batch batch, float parentAlpha) {
-        drawable.draw(batch, this.getX(), this.getY(), this.getWidth(), this.getHeight());
-    }
-
-    public void moveUp() {
-        this.setY(this.getY() + this.dy);
-    }
-
-    public void moveDown() {
-        this.setY(this.getY() - this.dy);
-    }
-
-    public void moveLeft() {
-        this.setX(this.getX() - this.dx);
-    }
-
-    public void moveRight() {
-        this.setX(this.getX() + this.dx);
-    }
-
-    /*
-     * Read the keys currently pressed.
-     * If they are any of the specified controls, update coordinates accordingly
-     */
-    public void handleKeyPress() {
-        if(controls == null)
-            return;
-
-        if(Gdx.input.isKeyPressed(controls.getUpKey())) {
-            this.moveUp();
-        }
-        if(Gdx.input.isKeyPressed(controls.getDownKey())) {
-            this.moveDown();
-        }
-        if(Gdx.input.isKeyPressed(controls.getLeftKey())) {
-            this.moveLeft();
-        }
-        if(Gdx.input.isKeyPressed(controls.getRightKey())) {
-            this.moveRight();
-        }
-    }
-
-    public void setDrawable(Drawable drawable) {
-        setDrawable(drawable, this.getX(), this.getY());
-    }
-
-    public void setDrawable(Drawable drawable, float x, float y) {
-        this.drawable = drawable;
-        this.setX(x);
-        this.setY(y);
-    }
+    public abstract void draw(Batch batch, float parentAlpha);
 
     public Controls getControls() {
         return controls;
