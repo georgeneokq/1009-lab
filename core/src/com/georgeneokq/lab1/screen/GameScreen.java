@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
+import com.georgeneokq.lab1.entity.Airplane;
 import com.georgeneokq.lab1.entity.Car;
 import com.georgeneokq.lab1.entity.Entity;
 import com.georgeneokq.lab1.entity.Controls;
@@ -33,9 +34,9 @@ public class GameScreen implements Screen {
     private void buildStage() {
         // Create entities
         Car car = new Car(
-                667,
-                170,
-                0,
+                667 / 4,
+                170 / 4,
+                stage.getWidth() / 2 - 100,
                 0,
                 Controls.PredefinedControls.PLAYER_1
         );
@@ -43,22 +44,24 @@ public class GameScreen implements Screen {
         car.setForwardSpeedLimit(60);
         car.setReverseSpeedLimit(2);
 
-        entities.addAll(Arrays.asList(car));
+        float airplaneWidth = 920 / 4;
+        Airplane airplane = new Airplane(
+                airplaneWidth,
+                517 / 4,
+                stage.getWidth() - airplaneWidth / 2,
+                0,
+                Controls.PredefinedControls.PLAYER_3
+        );
+        airplane.setVerticalAcceleration(1);
+
+        entities.addAll(Arrays.asList(car, airplane));
 
         for(Entity controlledActor : entities) {
-            // Scale down dimensions. TODO: Dynamic width/height scaling using getRegionWidth and getRegionHeight
-            controlledActor.setWidth(controlledActor.getWidth() / 4);
-            controlledActor.setHeight(controlledActor.getHeight() / 4);
-
             // Attach entities to stage
             stage.addActor(controlledActor);
         }
 
         Gdx.input.setInputProcessor(stage);
-    }
-
-    @Override
-    public void show() {
     }
 
     @Override
@@ -75,6 +78,9 @@ public class GameScreen implements Screen {
         stage.draw();
         stage.act(delta);
     }
+
+    @Override
+    public void show() {}
 
     @Override
     public void resize(int width, int height) {

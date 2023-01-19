@@ -1,0 +1,20 @@
+
+lab2.png
+size: 1024, 1024
+format: RGBA8888
+filter: Nearest, Nearest
+repeat: none
+car
+  rotate: false
+  xy: 2, 2
+  size: 667, 170
+  orig: 667, 170
+  offset: 0, 0
+  index: -1
+jal-airplane
+  rotate: false
+  xy: 2, 174
+  size: 920, 517
+  orig: 920, 517
+  offset: 0, 0
+  index: -1

@@ -17,7 +17,7 @@ public class Car extends Entity {
     public Car(float width, float height, float x, float y, Controls controls) {
         super(width, height, x, y, controls);
 
-        this.drawable = DrawableFactory.fromTextureAtlas(TextureAtlasManager.getTextureAtlas("lab1.atlas"), "car");
+        this.drawable = DrawableFactory.fromTextureAtlas(TextureAtlasManager.getTextureAtlas("lab2.atlas"), "car");
         this.drawable.setMinWidth(getWidth());
         this.drawable.setMinHeight(getHeight());
     }
