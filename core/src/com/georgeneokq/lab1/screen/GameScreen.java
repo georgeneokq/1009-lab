@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.georgeneokq.lab1.entity.Airplane;
+import com.georgeneokq.lab1.entity.Ball;
 import com.georgeneokq.lab1.entity.Car;
 import com.georgeneokq.lab1.entity.Entity;
 import com.georgeneokq.lab1.entity.Controls;
@@ -54,7 +55,16 @@ public class GameScreen implements Screen {
         );
         airplane.setVerticalAcceleration(1);
 
-        entities.addAll(Arrays.asList(car, airplane));
+        float ballRadius = 30;
+        Ball ball = new Ball(
+                ballRadius,
+                2,
+                0 + ballRadius,
+                0 + ballRadius,
+                Controls.PredefinedControls.PLAYER_2
+        );
+
+        entities.addAll(Arrays.asList(car, ball, airplane));
 
         for(Entity controlledActor : entities) {
             // Attach entities to stage
@@ -75,8 +85,8 @@ public class GameScreen implements Screen {
         }
 
         // Draw
-        stage.draw();
         stage.act(delta);
+        stage.draw();
     }
 
     @Override
