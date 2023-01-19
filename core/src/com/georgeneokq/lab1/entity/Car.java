@@ -5,10 +5,11 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.georgeneokq.lab1.factory.DrawableFactory;
 import com.georgeneokq.lab1.manager.TextureAtlasManager;
 
-public class Car extends ControlledActor {
+public class Car extends Entity {
 
     private float acceleration = 2;
-    private float speedLimit = 200;
+    private float forwardSpeedLimit = 200;
+    private float reverseSpeedLimit = 2;
 
     // A car will be drawn using a car image
     private Drawable drawable;
@@ -25,53 +26,71 @@ public class Car extends ControlledActor {
         this.acceleration = acceleration;
     }
 
-    public void setSpeedLimit(float speedLimit) {
-        this.speedLimit = speedLimit;
+    public void setForwardSpeedLimit(float forwardSpeedLimit) {
+        this.forwardSpeedLimit = forwardSpeedLimit;
     }
 
-    /*
-     * Update based on keys pressed
-     */
-    @Override
-    public void update() {
-        // Acceleration
-        if(Gdx.input.isKeyPressed(getControls().getRightKey())) {
-            this.dx += (acceleration * Gdx.graphics.getDeltaTime());
-        }
-        // Forced deceleration
-        else if(Gdx.input.isKeyPressed(getControls().getLeftKey())) {
-            this.dx += (-acceleration * Gdx.graphics.getDeltaTime());
-        } else {
-            // Forward movement natural deceleration
-            if(dx > 0) {
-                float newDx = this.dx + -(0.5f * acceleration) * Gdx.graphics.getDeltaTime();
-                if(newDx < 0)
-                    this.dx = 0;
-                else
-                    this.dx = newDx;
-            }
+    public void setReverseSpeedLimit(float reverseSpeedLimit) {
+        this.reverseSpeedLimit = reverseSpeedLimit;
+    }
 
-            // Reverse movement natural deceleration
-            if(dx < 0) {
-                float newDx = this.dx + (0.5f * acceleration) * Gdx.graphics.getDeltaTime();
-                if(newDx > 0)
-                    this.dx = 0;
-                else
-                    this.dx = newDx;
-            }
+    private void accelerate() {
+        this.speedX += (acceleration * Gdx.graphics.getDeltaTime());
+
+        if(this.speedX > forwardSpeedLimit)
+            speedX = forwardSpeedLimit;
+    }
+
+    private void forcedDecelerate() {
+        this.speedX += (-acceleration * Gdx.graphics.getDeltaTime());
+
+        if(this.speedX < -reverseSpeedLimit)
+            speedX = -reverseSpeedLimit;
+    }
+
+    private void naturalDecelerate() {
+        // Forward movement natural deceleration
+        if(speedX > 0) {
+            float newSpeedX = this.speedX + -(0.5f * acceleration) * Gdx.graphics.getDeltaTime();
+            if(newSpeedX < 0)
+                this.speedX = 0;
+            else
+                this.speedX = newSpeedX;
         }
 
-        // Apply speed limit
-        if(this.dx > speedLimit)
-            this.dx = speedLimit;
-        if(this.dx < -speedLimit)
-            this.dx = -speedLimit;
-
-        super.update();
+        // Reverse movement natural deceleration
+        if(speedX < 0) {
+            float newSpeedX = this.speedX + (0.5f * acceleration) * Gdx.graphics.getDeltaTime();
+            if(newSpeedX > 0)
+                this.speedX = 0;
+            else
+                this.speedX = newSpeedX;
+        }
     }
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
-        this.drawable.draw(batch, getX(), getY(), getWidth(), getHeight());
+        drawable.draw(batch, x, y, width, height);
+    }
+
+    @Override
+    public void moveUp() {}
+
+    @Override
+    public void moveLeft() {
+        forcedDecelerate();
+    }
+
+    @Override
+    public void moveDown() {}
+
+    @Override
+    public void moveRight() {
+        accelerate();
+    }
+
+    @Override
+    public void idle() {
+        naturalDecelerate();
     }
 }
