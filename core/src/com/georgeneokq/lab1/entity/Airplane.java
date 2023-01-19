@@ -5,6 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.georgeneokq.lab1.factory.DrawableFactory;
 import com.georgeneokq.lab1.manager.TextureAtlasManager;
 
+// Movement functions currently assume that the plane is facing left...
 public class Airplane extends Entity {
 
     private float verticalAcceleration = 2;
@@ -14,7 +15,7 @@ public class Airplane extends Entity {
     private float upwardSpeedLimit = 10;
     private float downwardSpeedLimit = 2;
 
-    // A car will be drawn using a car image
+    // An airplane will be drawn using a car image
     private Drawable drawable;
 
     public Airplane(float width, float height, float x, float y, Controls controls) {
@@ -109,7 +110,7 @@ public class Airplane extends Entity {
     }
 
     private void enforceBounds() {
-        // Set speedY to 0 if plane will go under the ground
+        // Set speedY to 0 if plane will continue to go underground
         if(y + speedY <= 0)
             speedY = 0;
     }

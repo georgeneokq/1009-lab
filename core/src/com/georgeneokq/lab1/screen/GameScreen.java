@@ -37,7 +37,7 @@ public class GameScreen implements Screen {
         Car car = new Car(
                 667 / 4,
                 170 / 4,
-                stage.getWidth() / 2 - 100,
+                0,
                 0,
                 Controls.PredefinedControls.PLAYER_1
         );
@@ -59,7 +59,7 @@ public class GameScreen implements Screen {
         Ball ball = new Ball(
                 ballRadius,
                 2,
-                0 + ballRadius,
+                stage.getWidth() / 2 - ballRadius,
                 0 + ballRadius,
                 Controls.PredefinedControls.PLAYER_2
         );
