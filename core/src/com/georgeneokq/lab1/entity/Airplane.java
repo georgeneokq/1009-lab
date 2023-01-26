@@ -6,7 +6,7 @@ import com.georgeneokq.lab1.factory.DrawableFactory;
 import com.georgeneokq.lab1.manager.TextureAtlasManager;
 
 // Movement functions currently assume that the plane is facing left...
-public class Airplane extends Entity {
+public class Airplane extends CollidableEntity {
 
     private float verticalAcceleration = 2;
     private float horizontalAcceleration = 2;
@@ -51,68 +51,68 @@ public class Airplane extends Entity {
     }
 
     private void horizontalAccelerate() {
-        this.speedX += (-horizontalAcceleration * Gdx.graphics.getDeltaTime());
+        this.dx += (-horizontalAcceleration * Gdx.graphics.getDeltaTime());
 
-        if(this.speedX < -forwardSpeedLimit)
-            speedX = -forwardSpeedLimit;
+        if(this.dx < -forwardSpeedLimit)
+            dx = -forwardSpeedLimit;
     }
 
     private void forcedHorizontalDecelerate() {
-        this.speedX += (horizontalAcceleration * Gdx.graphics.getDeltaTime());
+        this.dx += (horizontalAcceleration * Gdx.graphics.getDeltaTime());
 
-        if(this.speedX > reverseSpeedLimit)
-            speedX = reverseSpeedLimit;
+        if(this.dx > reverseSpeedLimit)
+            dx = reverseSpeedLimit;
     }
 
     private void naturalHorizontalDecelerate() {
         // Forward movement natural deceleration
-        if(speedX > 0) {
-            float newSpeedX = this.speedX + -(0.5f * horizontalAcceleration) * Gdx.graphics.getDeltaTime();
-            if(newSpeedX < 0)
-                this.speedX = 0;
+        if(dx > 0) {
+            float newDx = this.dx + -(0.5f * horizontalAcceleration) * Gdx.graphics.getDeltaTime();
+            if(newDx < 0)
+                this.dx = 0;
             else
-                this.speedX = newSpeedX;
+                this.dx = newDx;
         }
 
         // Reverse movement natural deceleration
-        if(speedX < 0) {
-            float newSpeedX = this.speedX + (0.5f * horizontalAcceleration) * Gdx.graphics.getDeltaTime();
-            if(newSpeedX > 0)
-                this.speedX = 0;
+        if(dx < 0) {
+            float newDx = this.dx + (0.5f * horizontalAcceleration) * Gdx.graphics.getDeltaTime();
+            if(newDx > 0)
+                this.dx = 0;
             else
-                this.speedX = newSpeedX;
+                this.dx = newDx;
         }
     }
 
     private void verticalAccelerate() {
-        this.speedY += (verticalAcceleration * Gdx.graphics.getDeltaTime());
+        this.dy += (verticalAcceleration * Gdx.graphics.getDeltaTime());
 
-        if(this.speedY > upwardSpeedLimit)
-            speedY = upwardSpeedLimit;
+        if(this.dy > upwardSpeedLimit)
+            dy = upwardSpeedLimit;
     }
 
     private void forcedVerticalDecelerate() {
-        this.speedY += (-verticalAcceleration * Gdx.graphics.getDeltaTime());
+        this.dy += (-verticalAcceleration * Gdx.graphics.getDeltaTime());
 
-        if(this.speedY < -downwardSpeedLimit)
-            speedY = -downwardSpeedLimit;
+        if(this.dy < -downwardSpeedLimit)
+            dy = -downwardSpeedLimit;
     }
 
     private void naturalVerticalDecelerate() {
         // Downward movement natural deceleration
-        if(speedY < 0) {
-            float newSpeedY = this.speedY + (0.5f * horizontalAcceleration) * Gdx.graphics.getDeltaTime();
-            if(newSpeedY > 0)
-                this.speedY = 0;
+        if(dy < 0) {
+            float newDy = this.dy + (0.5f * horizontalAcceleration) * Gdx.graphics.getDeltaTime();
+            if(newDy > 0)
+                this.dy = 0;
             else
-                this.speedY = newSpeedY;
+                this.dy = newDy;
         }
     }
 
     private void enforceBounds() {
-        // Set speedY to 0 if plane will continue to go underground
-        if(y + speedY <= 0)
-            speedY = 0;
+        // Set dy to 0 if plane will continue to go underground
+        if(y + dy <= 0)
+            dy = 0;
     }
 
     @Override
@@ -146,5 +146,12 @@ public class Airplane extends Entity {
         naturalHorizontalDecelerate();
         naturalVerticalDecelerate();
         enforceBounds();
+    }
+
+    @Override
+    public void handleCollision() {
+        dx = dx > 0 ? -2 : 2;
+        if(y > 0)
+            dy = dy > 0 ? -2 : 2;
     }
 }

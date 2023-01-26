@@ -3,23 +3,18 @@ package com.georgeneokq.lab1.screen;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.georgeneokq.lab1.entity.Airplane;
 import com.georgeneokq.lab1.entity.Ball;
 import com.georgeneokq.lab1.entity.Car;
-import com.georgeneokq.lab1.entity.Entity;
 import com.georgeneokq.lab1.entity.Controls;
+import com.georgeneokq.lab1.stage.ExtendedStage;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 
 public class GameScreen implements Screen {
-    private Stage stage;
+    private ExtendedStage stage;
     OrthographicCamera camera;
-
-    ArrayList<Entity> entities = new ArrayList<>();
 
     public GameScreen() {
         camera = new OrthographicCamera();
@@ -27,13 +22,13 @@ public class GameScreen implements Screen {
         // Initialize stage
         float screenWidth = Gdx.graphics.getWidth();
         float screenHeight = Gdx.graphics.getHeight();
-        this.stage = new Stage(new StretchViewport(screenWidth, screenHeight, camera));
+        this.stage = new ExtendedStage(new StretchViewport(screenWidth, screenHeight, camera));
 
         buildStage();
     }
 
     private void buildStage() {
-        // Create entities
+        // Create collidable entities
         Car car = new Car(
                 667 / 4,
                 170 / 4,
@@ -55,6 +50,7 @@ public class GameScreen implements Screen {
         );
         airplane.setVerticalAcceleration(1);
 
+        // Create non-collidable entities
         float ballRadius = 30;
         Ball ball = new Ball(
                 ballRadius,
@@ -64,12 +60,9 @@ public class GameScreen implements Screen {
                 Controls.PredefinedControls.PLAYER_2
         );
 
-        entities.addAll(Arrays.asList(car, ball, airplane));
-
-        for(Entity controlledActor : entities) {
-            // Attach entities to stage
-            stage.addActor(controlledActor);
-        }
+        stage.addCollidableEntity(car);
+        stage.addCollidableEntity(airplane);
+        stage.addNonCollidableEntity(ball);
 
         Gdx.input.setInputProcessor(stage);
     }
@@ -79,14 +72,7 @@ public class GameScreen implements Screen {
         // Black background
         ScreenUtils.clear(0.57f, 0.77f, 0.85f, 1);
 
-        // Update
-        for(Entity controlledActor : entities) {
-            controlledActor.update();
-        }
-
-        // Draw
-        stage.act(delta);
-        stage.draw();
+        stage.updateAndDraw(delta);
     }
 
     @Override

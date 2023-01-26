@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
-public class Ball extends Entity {
+public class Ball extends NonCollidableEntity {
 
     private final static float GRAVITATIONAL_FORCE = 10;
 
@@ -24,16 +24,16 @@ public class Ball extends Entity {
     private void kickUpwards() {
         if(y - height > 0)
             return;
-        speedY += 50 * Gdx.graphics.getDeltaTime();
+        dy += 50 * Gdx.graphics.getDeltaTime();
     }
 
     private void gravity() {
-        speedY -= (GRAVITATIONAL_FORCE  * Gdx.graphics.getDeltaTime());
+        dy -= (GRAVITATIONAL_FORCE  * Gdx.graphics.getDeltaTime());
     }
 
     private void enforceBounds() {
-        if(y - radius + speedY <= 0) {
-            speedY = 0;
+        if(y - radius + dy <= 0) {
+            dy = 0;
         }
     }
 
@@ -44,7 +44,7 @@ public class Ball extends Entity {
 
     @Override
     public void moveLeft() {
-        speedX = -horizontalSpeed;
+        dx = -horizontalSpeed;
     }
 
     @Override
@@ -53,12 +53,12 @@ public class Ball extends Entity {
 
     @Override
     public void moveRight() {
-        speedX = horizontalSpeed;
+        dx = horizontalSpeed;
     }
 
     @Override
     public void idle() {
-        speedX = 0;
+        dx = 0;
     }
 
     @Override

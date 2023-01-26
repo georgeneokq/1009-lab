@@ -8,38 +8,31 @@ public abstract class Entity extends Brain {
     protected float height;
     protected float x;
     protected float y;
-    protected float speedX;
-    protected float speedY;
+    protected float dx;
+    protected float dy;
 
     private Controls controls;
 
     public Entity(float width, float height) {
-        this(width, height, 0, 0, 0, 0, null);
+        this(width, height, 0, 0, null);
     }
 
     public Entity(float width, float height, Controls controls) {
-        this(width, height, 0, 0, 0, 0, controls);
+        this(width, height, 0, 0, controls);
     }
 
     public Entity(float width, float height, float x, float y, Controls controls) {
-        this(width, height, x, y, 0, 0, controls);
-    }
-
-    /*
-     * Speed should be provided if the entity is movable
-     */
-    public Entity(float width, float height, float x, float y, float speedX, float speedY, Controls controls) {
         this.setWidth(width);
         this.setHeight(height);
         this.setX(x);
         this.setY(y);
-        this.speedX = speedX;
-        this.speedY = speedY;
+        this.dx = 0;
+        this.dy = 0;
         this.controls = controls;
     }
 
     // Move the entity
-    public void update() {
+    public void handleKeyPress() {
         // If the entity is idle, perform idle actions
         if(isIdle()) {
             idle();
@@ -56,8 +49,8 @@ public abstract class Entity extends Brain {
         }
 
         // Update the coordinates
-        x += speedX;
-        y += speedY;
+        x += dx;
+        y += dy;
     }
 
     // No controls of this entity being pressed

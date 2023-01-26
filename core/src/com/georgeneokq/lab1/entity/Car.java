@@ -5,7 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.georgeneokq.lab1.factory.DrawableFactory;
 import com.georgeneokq.lab1.manager.TextureAtlasManager;
 
-public class Car extends Entity {
+public class Car extends CollidableEntity {
 
     private float acceleration = 2;
     private float forwardSpeedLimit = 200;
@@ -35,36 +35,36 @@ public class Car extends Entity {
     }
 
     private void accelerate() {
-        this.speedX += (acceleration * Gdx.graphics.getDeltaTime());
+        this.dx += (acceleration * Gdx.graphics.getDeltaTime());
 
-        if(this.speedX > forwardSpeedLimit)
-            speedX = forwardSpeedLimit;
+        if(this.dx > forwardSpeedLimit)
+            dx = forwardSpeedLimit;
     }
 
     private void forcedDecelerate() {
-        this.speedX += (-acceleration * Gdx.graphics.getDeltaTime());
+        this.dx += (-acceleration * Gdx.graphics.getDeltaTime());
 
-        if(this.speedX < -reverseSpeedLimit)
-            speedX = -reverseSpeedLimit;
+        if(this.dx < -reverseSpeedLimit)
+            dx = -reverseSpeedLimit;
     }
 
     private void naturalDecelerate() {
         // Forward movement natural deceleration
-        if(speedX > 0) {
-            float newSpeedX = this.speedX + -(0.5f * acceleration) * Gdx.graphics.getDeltaTime();
-            if(newSpeedX < 0)
-                this.speedX = 0;
+        if(dx > 0) {
+            float newDx = this.dx + -(0.5f * acceleration) * Gdx.graphics.getDeltaTime();
+            if(newDx < 0)
+                this.dx = 0;
             else
-                this.speedX = newSpeedX;
+                this.dx = newDx;
         }
 
         // Reverse movement natural deceleration
-        if(speedX < 0) {
-            float newSpeedX = this.speedX + (0.5f * acceleration) * Gdx.graphics.getDeltaTime();
-            if(newSpeedX > 0)
-                this.speedX = 0;
+        if(dx < 0) {
+            float newDx = this.dx + (0.5f * acceleration) * Gdx.graphics.getDeltaTime();
+            if(newDx > 0)
+                this.dx = 0;
             else
-                this.speedX = newSpeedX;
+                this.dx = newDx;
         }
     }
 
@@ -92,5 +92,10 @@ public class Car extends Entity {
     @Override
     public void idle() {
         naturalDecelerate();
+    }
+
+    @Override
+    public void handleCollision() {
+        dx = dx > 0 ? -2 : 2;
     }
 }
