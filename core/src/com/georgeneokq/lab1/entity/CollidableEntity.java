@@ -4,8 +4,8 @@ import com.badlogic.gdx.math.Rectangle;
 
 public abstract class CollidableEntity extends Entity implements ICollidable {
 
-    public CollidableEntity(float width, float height, float x, float y, Controls controls) {
-        super(width, height, x, y, controls);
+    public CollidableEntity(float width, float height, float x, float y, float speed, Controls controls) {
+        super(width, height, x, y, speed, controls);
     }
 
     @Override

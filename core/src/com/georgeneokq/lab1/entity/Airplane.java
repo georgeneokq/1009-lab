@@ -18,8 +18,39 @@ public class Airplane extends CollidableEntity {
     // An airplane will be drawn using a car image
     private Drawable drawable;
 
+    private Brain brain = new Brain(this) {
+        @Override
+        public void moveUp() {
+            verticalAccelerate();
+        }
+
+        @Override
+        public void moveRight() {
+            forcedHorizontalDecelerate();
+        }
+
+        @Override
+        public void moveDown() {
+            forcedVerticalDecelerate();
+            enforceBounds();
+        }
+
+        @Override
+        public void moveLeft() {
+            horizontalAccelerate();
+        }
+
+        @Override
+        public void idle() {
+            naturalHorizontalDecelerate();
+            naturalVerticalDecelerate();
+            enforceBounds();
+        }
+    };
+
     public Airplane(float width, float height, float x, float y, Controls controls) {
-        super(width, height, x, y, controls);
+        super(width, height, x, y, 0, controls);
+        this.setBrain(brain);
 
         this.drawable = DrawableFactory.fromTextureAtlas(TextureAtlasManager.getTextureAtlas("lab2.atlas"), "jal-airplane");
         this.drawable.setMinWidth(getWidth());
@@ -118,34 +149,6 @@ public class Airplane extends CollidableEntity {
     @Override
     public void draw(Batch batch, float parentAlpha) {
         drawable.draw(batch, x, y, width, height);
-    }
-
-    @Override
-    public void moveUp() {
-        verticalAccelerate();
-    }
-
-    @Override
-    public void moveLeft() {
-        horizontalAccelerate();
-    }
-
-    @Override
-    public void moveDown() {
-        forcedVerticalDecelerate();
-        enforceBounds();
-    }
-
-    @Override
-    public void moveRight() {
-        forcedHorizontalDecelerate();
-    }
-
-    @Override
-    public void idle() {
-        naturalHorizontalDecelerate();
-        naturalVerticalDecelerate();
-        enforceBounds();
     }
 
     @Override

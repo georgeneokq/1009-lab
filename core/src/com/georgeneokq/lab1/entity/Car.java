@@ -14,8 +14,26 @@ public class Car extends CollidableEntity {
     // A car will be drawn using a car image
     private Drawable drawable;
 
+    private Brain brain = new Brain(this) {
+        @Override
+        public void moveLeft() {
+            forcedDecelerate();
+        }
+
+        @Override
+        public void moveRight() {
+            accelerate();
+        }
+
+        @Override
+        public void idle() {
+            naturalDecelerate();
+        }
+    };
+
     public Car(float width, float height, float x, float y, Controls controls) {
-        super(width, height, x, y, controls);
+        super(width, height, x, y, 0, controls);
+        this.setBrain(brain);
 
         this.drawable = DrawableFactory.fromTextureAtlas(TextureAtlasManager.getTextureAtlas("lab2.atlas"), "car");
         this.drawable.setMinWidth(getWidth());
@@ -73,26 +91,6 @@ public class Car extends CollidableEntity {
         drawable.draw(batch, x, y, width, height);
     }
 
-    @Override
-    public void moveUp() {}
-
-    @Override
-    public void moveLeft() {
-        forcedDecelerate();
-    }
-
-    @Override
-    public void moveDown() {}
-
-    @Override
-    public void moveRight() {
-        accelerate();
-    }
-
-    @Override
-    public void idle() {
-        naturalDecelerate();
-    }
 
     @Override
     public void handleCollision() {
