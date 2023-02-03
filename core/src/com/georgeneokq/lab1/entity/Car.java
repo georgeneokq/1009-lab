@@ -5,7 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.georgeneokq.lab1.factory.DrawableFactory;
 import com.georgeneokq.lab1.manager.TextureAtlasManager;
 
-public class Car extends CollidableEntity {
+public class Car extends CollidableEntity<Car> {
 
     private float acceleration = 2;
     private float forwardSpeedLimit = 200;
@@ -38,6 +38,13 @@ public class Car extends CollidableEntity {
         this.drawable = DrawableFactory.fromTextureAtlas(TextureAtlasManager.getTextureAtlas("lab2.atlas"), "car");
         this.drawable.setMinWidth(getWidth());
         this.drawable.setMinHeight(getHeight());
+    }
+
+    @Override
+    public Car clone() throws CloneNotSupportedException {
+        Car carClone = new Car(width, height, x, y, getControls());
+        carClone.setDx(this.getDx());
+        return carClone;
     }
 
     public void setAcceleration(float acceleration) {

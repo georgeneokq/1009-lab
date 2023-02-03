@@ -6,7 +6,7 @@ import com.georgeneokq.lab1.factory.DrawableFactory;
 import com.georgeneokq.lab1.manager.TextureAtlasManager;
 
 // Movement functions currently assume that the plane is facing left...
-public class Airplane extends CollidableEntity {
+public class Airplane extends CollidableEntity<Airplane> {
 
     private float verticalAcceleration = 2;
     private float horizontalAcceleration = 2;

@@ -8,7 +8,9 @@ import com.georgeneokq.lab1.MyGame;
 public class DesktopLauncher {
 	public static void main (String[] arg) {
 		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
-		config.setWindowedMode(1200, 800);
+		config.setResizable(true);
+		config.setDecorated(false);
+		config.setWindowedMode(1920, 1080);
 		config.setForegroundFPS(60);
 		config.setTitle("Lab 1");
 		new Lwjgl3Application(new MyGame(), config);

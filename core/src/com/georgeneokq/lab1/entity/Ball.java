@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
-public class Ball extends NonCollidableEntity {
+public class Ball extends NonCollidableEntity<Ball> {
 
     private final static float GRAVITATIONAL_FORCE = 10;
 

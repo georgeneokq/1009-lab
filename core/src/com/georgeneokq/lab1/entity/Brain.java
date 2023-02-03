@@ -1,9 +1,8 @@
 package com.georgeneokq.lab1.entity;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 
-public class Brain {
+public class Brain implements Cloneable {
     private Entity entity;
 
     // Takes in Entity as a parameter, but basically requires an object
@@ -27,5 +26,10 @@ public class Brain {
     public void idle() {
         entity.changeDxTowardsZero(entity.getSpeed() * Gdx.graphics.getDeltaTime());
         entity.changeDyTowardsZero(entity.getSpeed() * Gdx.graphics.getDeltaTime());
+    }
+
+    @Override
+    public Brain clone() throws CloneNotSupportedException {
+        return (Brain) super.clone();
     }
 }

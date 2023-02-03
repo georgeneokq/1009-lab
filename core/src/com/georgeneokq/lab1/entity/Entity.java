@@ -4,7 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
-public abstract class Entity extends Actor {
+public abstract class Entity<T> extends Actor implements Cloneable {
     protected float width;
     protected float height;
     protected float x;
@@ -13,6 +13,7 @@ public abstract class Entity extends Actor {
     protected float dy;
     protected float speed;
     private Controls controls;
+    private Brain defaultBrain;
     private Brain brain;
 
     public Entity(float width, float height, float x, float y, float speed, Controls controls) {
@@ -25,6 +26,16 @@ public abstract class Entity extends Actor {
         this.speed = speed;
         this.controls = controls;
         this.brain = new Brain(this);
+        try {
+            this.defaultBrain = this.brain.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public T clone() throws CloneNotSupportedException {
+        return (T) super.clone();
     }
 
     // Move the entity
@@ -33,6 +44,8 @@ public abstract class Entity extends Actor {
         if(isIdle()) {
             brain.idle();
         } else {
+            if(controls == null)
+                return;
             // Perform action specified by subclass.
             if(Gdx.input.isKeyPressed(controls.getUpKey()))
                 brain.moveUp();
@@ -51,6 +64,9 @@ public abstract class Entity extends Actor {
 
     // No controls of this entity being pressed
     public final boolean isIdle() {
+        if(controls == null)
+            return true;
+
         return (!Gdx.input.isKeyPressed(controls.getUpKey()) &&
                 !Gdx.input.isKeyPressed(controls.getLeftKey()) &&
                 !Gdx.input.isKeyPressed(controls.getDownKey()) &&
@@ -157,6 +173,10 @@ public abstract class Entity extends Actor {
 
     public void setControls(Controls controls) {
         this.controls = controls;
+    }
+
+    public Brain getDefaultBrain() {
+        return defaultBrain;
     }
 
     public Brain getBrain() {

@@ -11,10 +11,16 @@ import com.georgeneokq.lab1.entity.Car;
 import com.georgeneokq.lab1.entity.Controls;
 import com.georgeneokq.lab1.stage.ExtendedStage;
 
-
 public class GameScreen implements Screen {
     private ExtendedStage stage;
-    OrthographicCamera camera;
+    private OrthographicCamera camera;
+
+    private Airplane airplane;
+    private Ball ball;
+    private Car car;
+
+    private long CLONE_SPAWN_INTERVAL = 4000;
+    private long timeSinceLastClone;
 
     public GameScreen() {
         camera = new OrthographicCamera();
@@ -25,11 +31,12 @@ public class GameScreen implements Screen {
         this.stage = new ExtendedStage(new StretchViewport(screenWidth, screenHeight, camera));
 
         buildStage();
+        timeSinceLastClone = System.currentTimeMillis();
     }
 
     private void buildStage() {
         // Create collidable entities
-        Car car = new Car(
+        car = new Car(
                 667 / 4,
                 170 / 4,
                 0,
@@ -41,7 +48,7 @@ public class GameScreen implements Screen {
         car.setReverseSpeedLimit(2);
 
         float airplaneWidth = 920 / 4;
-        Airplane airplane = new Airplane(
+        airplane = new Airplane(
                 airplaneWidth,
                 517 / 4,
                 stage.getWidth() - airplaneWidth / 2,
@@ -52,7 +59,7 @@ public class GameScreen implements Screen {
 
         // Create non-collidable entities
         float ballRadius = 30;
-        Ball ball = new Ball(
+        ball = new Ball(
                 ballRadius,
                 2,
                 stage.getWidth() / 2 - ballRadius,
@@ -69,37 +76,38 @@ public class GameScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        // Black background
+        // Blue background
         ScreenUtils.clear(0.57f, 0.77f, 0.85f, 1);
+
+        // Create a clone of a car every few seconds
+        if(car != null && System.currentTimeMillis() - timeSinceLastClone > CLONE_SPAWN_INTERVAL) {
+            try {
+                timeSinceLastClone = System.currentTimeMillis();
+                Car carClone = car.clone();
+
+                // Detach controls so that the cloned objects don't move together.
+                // The cloned object will eventually stop and become vegetable
+                carClone.setControls(null);
+                stage.addCollidableEntity(carClone);
+
+            } catch (CloneNotSupportedException e) {
+                e.printStackTrace();
+            }
+        }
 
         stage.updateAndDraw(delta);
     }
 
     @Override
     public void show() {}
-
     @Override
-    public void resize(int width, int height) {
-
-    }
-
+    public void resize(int width, int height) {}
     @Override
-    public void pause() {
-
-    }
-
+    public void pause() {}
     @Override
-    public void resume() {
-
-    }
-
+    public void resume() {}
     @Override
-    public void hide() {
-
-    }
-
+    public void hide() {}
     @Override
-    public void dispose() {
-
-    }
+    public void dispose() {}
 }
