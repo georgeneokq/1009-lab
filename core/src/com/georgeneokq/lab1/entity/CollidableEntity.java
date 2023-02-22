@@ -15,14 +15,34 @@ public abstract class CollidableEntity<T extends ICollidable>
         // Objects of the same type (clones) do not collide
         if(this.getClass() == collidable.getClass())
             return false;
-        Rectangle collidableBounds = this.getBounds();
-        Rectangle otherCollidableBounds = collidable.getBounds();
+        ICollidable thisClone = null;
+        ICollidable otherClone = null;
+
+        try {
+            thisClone = this.clone();
+            otherClone = (T) collidable.clone();
+        } catch(CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
+
+        Rectangle collidableBounds = thisClone.getForecastedBounds();
+        Rectangle otherCollidableBounds = otherClone.getForecastedBounds();
         return collidableBounds.overlaps(otherCollidableBounds);
     }
 
     @Override
-    public Rectangle getBounds() {
+    public Rectangle getForecastedBounds() {
         return new Rectangle(x + dx,
                 y + dy, width, height);
+    }
+
+    @Override
+    public Rectangle getBounds() {
+        return new Rectangle(x, y, width, height);
+    }
+
+    @Override
+    public T clone() throws CloneNotSupportedException {
+        return super.clone();
     }
 }
